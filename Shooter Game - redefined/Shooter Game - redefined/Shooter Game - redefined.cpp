@@ -19,15 +19,10 @@ int main()
 
     window.setFramerateLimit(60);
 
-    bool isShoot = true;
-    int shootTimer = 0;
+
     int enemySpawnTimer = 0;    
-    int shootDuration = 15;
-    float missileVelocity = 10.f;
     int enemySpawnDuration = 100;
-    Vector2f centerPosition;
-    float enemyVelocity = -.5f;
-    bool isMove = true;
+   
     Collision collision;
    
    
@@ -46,9 +41,9 @@ int main()
     //player
     Player userPlayer("textures/player.png");
 
-
-    //missile
-    Missile missile("textures/missile.png");
+    
+   ;    //missile
+    Missile missile("textures/missile.png" );
 
 
     //enemy
@@ -68,30 +63,24 @@ int main()
         }
 
 
-        //pinakaatay nga update
+        // update
         
 
         //player movement
         userPlayer.movePlayer(window);
 
         //position for center missile
-         centerPosition = Vector2f(userPlayer.getPlayer().getPosition().x + 20, userPlayer.getPlayer().getPosition().y + 20);
+        
+        missile.setCenterPosition(userPlayer.getPlayer().getPosition().x + 20, userPlayer.getPlayer().getPosition().y + 20);
        
        
-        if (shootTimer < shootDuration)
-            shootTimer++;
 
         //trigger
-        if (Mouse::isButtonPressed(Mouse::Left)&& shootTimer >= shootDuration) {
-            
-            missile.shootMissiles(centerPosition,missiles);
-
-            shootTimer = 0;
-        }
+       missile.shootMissiles(missiles);
         
          //missile/projectile projection
 
-        missile.missilesMovement(window,missileVelocity, missiles);
+        missile.missilesMovement(window, missiles);
 
         //enemy spawn 
 
@@ -104,7 +93,7 @@ int main()
         }
         
         //enemy movement
-        enemy.enemyMovement(window,enemyVelocity,enemies);
+        enemy.enemyMovement(window,enemies);
 
         //detection for collision of projectiles and enemies
        

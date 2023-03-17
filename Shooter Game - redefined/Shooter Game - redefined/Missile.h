@@ -7,20 +7,25 @@
 #include"SFML\Window.hpp"
 #include <iostream>
 #include <vector>
+#include "Player.h"
+#include "Missile.h"
 using namespace sf;
 class Missile {
 public:
 	Missile() {}
-
 	Missile(std::string imgPath) {
 		if (!missileTexture.loadFromFile(imgPath))
 			throw "can't load png file";
 
 		bulletForm.setTexture(missileTexture);
 		bulletForm.setScale(Vector2f(.05f, .05f));
+
+		shootTimer = 0;
+		shootDuration = 15;
+		 missileVelocity = 10.f;
 	}
 
-	void missilesMovement(RenderWindow &window, float missileVelocity, std::vector<Sprite>& missiles) {
+	void missilesMovement(RenderWindow &window, std::vector<Sprite>& missiles) {
 	
 		for (int i = 0; i < missiles.size(); i++) {
 			missiles[i].move(missileVelocity, 0.0f);
@@ -31,10 +36,20 @@ public:
 
 		};
 	}
-	void shootMissiles(Vector2f centerPosition, std::vector<Sprite>& missiles) {
+	void shootMissiles( std::vector<Sprite>& missiles) {
 
-		bulletForm.setPosition(centerPosition);
-		missiles.push_back(Sprite(bulletForm));
+		if (shootTimer < shootDuration)
+			shootTimer++;
+
+		//trigger
+		if (Mouse::isButtonPressed(Mouse::Left) && shootTimer >= shootDuration) {
+
+			bulletForm.setPosition(centerPosition);
+			missiles.push_back(Sprite(bulletForm));
+
+			shootTimer = 0;
+		}
+		
 	}
 
 	void drawMissiles(RenderWindow &window, std::vector<Sprite> missiles) {
@@ -45,9 +60,17 @@ public:
 		};
 	}
 
-	 
+	void setCenterPosition(float x_xis, float y_axis) {
+		centerPosition = Vector2f(x_xis,y_axis);
+
+	};
+	
 private:
 	Texture missileTexture;
 	Sprite bulletForm;
+	Vector2f centerPosition;
+	int shootTimer;
+	int shootDuration;
+	float missileVelocity;
 
 };

@@ -9,15 +9,15 @@
 using namespace sf;
 class Enemy {
 public:
-	Enemy() {
-	}
+	
 	
 	Enemy(std::string imgPath) {
 		if (!enemyTexture.loadFromFile(imgPath))
 			throw  "can't load png";
 		enemyForm.setTexture(enemyTexture);
 		enemyForm.setScale(Vector2f(.2f, .2f));
-		
+		 enemyVelocity = -.5f;
+
 	}
 
 	void enemySpawn( RenderWindow &window, std::vector<Sprite>& enemies) {
@@ -27,7 +27,7 @@ public:
 		
 	}
 
-	void enemyMovement(RenderWindow &window, float enemyVelocity, std::vector<Sprite>& enemies) {
+	void enemyMovement(RenderWindow &window, std::vector<Sprite>& enemies) {
 	
 		for (int i = 0; i < enemies.size(); i++) {
 			enemies[i].move(enemyVelocity, 0.f);
@@ -53,6 +53,7 @@ public:
 private:
 	Texture enemyTexture;
 	Sprite enemyForm;
+	float enemyVelocity = 0;
 
 
 };
