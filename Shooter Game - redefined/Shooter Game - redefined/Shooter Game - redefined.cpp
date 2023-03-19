@@ -23,7 +23,7 @@ int main()
     int playerAnimation = 0;
     int enemySpawnTimer = 0;    
     int enemySpawnDuration = 100;
-   
+    int enemySize = 0;
     Collision collision;
    
    
