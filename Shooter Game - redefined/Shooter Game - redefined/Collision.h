@@ -36,7 +36,7 @@ public:
             if (player.getGlobalBounds().intersects(enemies[j].getGlobalBounds()))
                 enemies.erase(enemies.begin() + j);
 
-            break;
+            
         }
     };
 private:

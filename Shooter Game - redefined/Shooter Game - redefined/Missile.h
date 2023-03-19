@@ -30,6 +30,7 @@ public:
 		for (int i = 0; i < missiles.size(); i++) {
 			missiles[i].move(missileVelocity, 0.0f);
 
+			//delete missiles when out of screen
 			if (missiles[i].getPosition().x >= window.getSize().x)
 				missiles.erase(missiles.begin() + i);
 
@@ -69,8 +70,8 @@ private:
 	Texture missileTexture;
 	Sprite bulletForm;
 	Vector2f centerPosition;
-	int shootTimer;
-	int shootDuration;
-	float missileVelocity;
+	int shootTimer =0;
+	int shootDuration=0;
+	float missileVelocity =0;
 
 };

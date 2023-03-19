@@ -32,6 +32,7 @@ public:
 		for (int i = 0; i < enemies.size(); i++) {
 			enemies[i].move(enemyVelocity, 0.f);
 
+			//delete enemies when out of screen
 			if (enemies[i].getPosition().x <= 0 || enemies[i].getPosition().y >= window.getSize().y)
 				enemies.erase(enemies.begin() + i);
 

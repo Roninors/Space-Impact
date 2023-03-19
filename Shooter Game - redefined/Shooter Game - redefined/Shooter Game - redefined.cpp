@@ -9,6 +9,7 @@
 #include "Enemy.h"
 #include "Collision.h"
 #include "Missile.h"
+
 using namespace sf;
 
 
@@ -19,7 +20,7 @@ int main()
 
     window.setFramerateLimit(60);
 
-
+    int playerAnimation = 0;
     int enemySpawnTimer = 0;    
     int enemySpawnDuration = 100;
    
@@ -39,7 +40,7 @@ int main()
     backGround.setScale(1.1f, 1.1f);
 
     //player
-    Player userPlayer("textures/player.png");
+    Player userPlayer("textures/Ligher.png");
 
     
    ;    //missile
@@ -51,7 +52,7 @@ int main()
 
     
    
-  
+    Clock clock;
 
     while (window.isOpen())
     {
@@ -72,9 +73,29 @@ int main()
         //position for center missile
         
         missile.setCenterPosition(userPlayer.getPlayer().getPosition().x + 20, userPlayer.getPlayer().getPosition().y + 20);
+
+        userPlayer.updateAnimation(playerAnimation);
        
        
 
+        if (clock.getElapsedTime().asSeconds() > .1f) {
+
+            playerAnimation ++;
+            clock.restart();
+           
+        }
+         
+      
+       
+        if (playerAnimation == 4) {
+        
+            playerAnimation = 0;
+        }
+           
+        
+
+        std::cout << playerAnimation;
+            
         //trigger
        missile.shootMissiles(missiles);
         
@@ -104,13 +125,15 @@ int main()
 
         window.clear();
      
+
         //drawinga imong nawng
+
         window.draw(backGround);
-  
-        enemy.drawEnemy(window,enemies);
+
+        enemy.drawEnemy(window, enemies);
 
         userPlayer.drawPlayer(window);
-        
+
         missile.drawMissiles(window,missiles);
 
         window.display();
