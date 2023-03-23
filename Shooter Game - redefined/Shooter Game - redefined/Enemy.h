@@ -15,10 +15,19 @@ public:
 		if (!enemyTexture.loadFromFile(imgPath))
 			throw  "can't load png";
 		enemyForm.setTexture(enemyTexture);
-		enemyForm.setScale(Vector2f(.2f, .2f));
+	
 		 enemyVelocity = -.5f;
+		 
+		 enemyTextureSize = enemyTexture.getSize();
+		 enemyTextureSize.x /= 1;
+		 enemyTextureSize.y /= 5;
+
 
 	}
+
+	
+
+
 
 	void enemySpawn( RenderWindow &window, std::vector<Sprite>& enemies) {
 		
@@ -27,11 +36,12 @@ public:
 		
 	}
 
-	void enemyMovement(RenderWindow &window, std::vector<Sprite>& enemies) {
+	void enemyMovement(RenderWindow &window, std::vector<Sprite>& enemies, int imageCount) {
 	
 		for (int i = 0; i < enemies.size(); i++) {
 			enemies[i].move(enemyVelocity, 0.f);
 
+			enemies[i].setTextureRect(IntRect(enemyTextureSize.x * 0 , enemyTextureSize.y * imageCount, enemyTextureSize.x, enemyTextureSize.y));
 			//delete enemies when out of screen
 			if (enemies[i].getPosition().x <= 0 || enemies[i].getPosition().y >= window.getSize().y)
 				enemies.erase(enemies.begin() + i);
@@ -55,6 +65,6 @@ private:
 	Texture enemyTexture;
 	Sprite enemyForm;
 	float enemyVelocity = 0;
-
+	Vector2u enemyTextureSize;
 
 };

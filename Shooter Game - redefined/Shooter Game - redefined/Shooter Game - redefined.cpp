@@ -23,8 +23,10 @@ int main()
     int playerAnimation = 0;
     int enemySpawnTimer = 0;    
     int enemySpawnDuration = 100;
-    int enemySize = 0;
-    Collision collision;
+    int enemyImageCount = 0;
+    int collisionImageCount = 0;
+    int missileImageCount = 0;
+    Collision collision("textures/explode.png");
    
    
     std::vector <Sprite> enemies;
@@ -44,11 +46,11 @@ int main()
 
     
    ;    //missile
-    Missile missile("textures/missile.png" );
+    Missile missile("textures/06.png" );
 
 
     //enemy
-    Enemy enemy("textures/enemy2.png");
+    Enemy enemy("textures/purpleShip.png");
 
     
    
@@ -72,15 +74,16 @@ int main()
 
         //position for center missile
         
-        missile.setCenterPosition(userPlayer.getPlayer().getPosition().x + 20, userPlayer.getPlayer().getPosition().y + 20);
+        missile.setCenterPosition(userPlayer.getPlayer().getPosition().x +10, userPlayer.getPlayer().getPosition().y +10 );
 
         userPlayer.updateAnimation(playerAnimation);
-       
+
        
 
         if (clock.getElapsedTime().asSeconds() > .1f) {
-
+             enemyImageCount++;
             playerAnimation ++;
+            collisionImageCount++;
             clock.restart();
            
         }
@@ -92,9 +95,20 @@ int main()
             playerAnimation = 0;
         }
            
+
+        if (enemyImageCount == 4) {
+
+            enemyImageCount = 0;
+        }
+
+        if (collisionImageCount == 8) {
+
+            collisionImageCount = 0;
+        }
+
         
 
-        std::cout << playerAnimation;
+
             
         //trigger
        missile.shootMissiles(missiles);
@@ -114,11 +128,11 @@ int main()
         }
         
         //enemy movement
-        enemy.enemyMovement(window,enemies);
+        enemy.enemyMovement(window,enemies, enemyImageCount);
 
         //detection for collision of projectiles and enemies
        
-        collision.enemy_missileCollision(missiles, enemies);
+        collision.enemy_missileCollision(missiles, enemies,collisionImageCount);
         //collision for enemies and player
         collision.enemy_playerCollision(enemies, userPlayer.getPlayer());
 

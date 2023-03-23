@@ -18,7 +18,7 @@ public:
 			throw "can't load png file";
 
 		bulletForm.setTexture(missileTexture);
-		bulletForm.setScale(Vector2f(.05f, .05f));
+		bulletForm.setScale(Vector2f(.5f, .5f));
 
 		shootTimer = 0;
 		shootDuration = 15;

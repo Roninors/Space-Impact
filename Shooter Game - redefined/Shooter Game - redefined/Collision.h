@@ -9,17 +9,32 @@
 using namespace sf;
 class Collision {
 public:
-    Collision() {
+    Collision(std::string collisionImg) {
+
+        if (!collisionTexture.loadFromFile(collisionImg))
+            throw  "can't load png";
+        collision.setTexture(collisionTexture);
+        collisionTextureSize = collisionTexture.getSize();
+
+        collisionTextureSize.x /= 1;
+        collisionTextureSize.y /= 8;
+
+              
         killCount = 0;
     }
   
    
-	void enemy_missileCollision(std::vector <Sprite>& missiles, std::vector <Sprite>& enemies) {
+	void enemy_missileCollision(std::vector <Sprite>& missiles, std::vector <Sprite>& enemies, int imageCount) {
+
+
         for (int i = 0; i < missiles.size(); i++) {
             for (int k = 0; k < enemies.size(); k++) {
 
 
                 if (missiles[i].getGlobalBounds().intersects(enemies[k].getGlobalBounds())) {
+
+                   
+                    enemies[k].setTextureRect(IntRect(collisionTextureSize.x * 0, collisionTextureSize.y * imageCount, collisionTextureSize.x, collisionTextureSize.y));
                     enemies.erase(enemies.begin() + k);
                     missiles.erase(missiles.begin() + i);
                     killCount++;
@@ -40,6 +55,9 @@ public:
         }
     };
 private:
+    Sprite collision;
+    Texture collisionTexture;
+    Vector2u collisionTextureSize;
     int killCount;
 };
 
