@@ -155,12 +155,15 @@ int main()
         collision.enemy_missileCollision(missiles, enemies,window,enemyMissiles);
 
         //collision for enemies and player
-        collision.enemy_playerCollision(enemies, userPlayer.getPlayer(), userPlayer,enemyMissiles);
+        collision.enemy_playerCollision(enemies, userPlayer.getPlayer(), userPlayer);
+
+
 
         // collision for enemy missiles and player missiles
         if (level.getdetectionMissiles() == true) {
             std::cout << "detect";
             collision.detectEnemyMissile(enemyMissiles, missiles);
+            collision.player_EnemyMissileCollision(enemyMissiles, userPlayer.getPlayer(), userPlayer);
         }
       
         //

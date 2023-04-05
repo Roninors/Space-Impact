@@ -101,7 +101,7 @@ public:
     }
 
 
-    void enemy_playerCollision(std::vector <Sprite>& enemies, Sprite player, Player& playerInstance, std::vector <Sprite>& enemyMissiles) {
+    void enemy_playerCollision(std::vector <Sprite>& enemies, Sprite player, Player& playerInstance) {
 
         for (int j = 0; j < enemies.size(); j++) {
             if (player.getGlobalBounds().intersects(enemies[j].getGlobalBounds())) {
@@ -117,7 +117,20 @@ public:
 
     }
 
+    void player_EnemyMissileCollision(std::vector <Sprite>& enemyMissiles, Sprite player, Player& playerInstance) {
 
+        for (int j = 0; j < enemyMissiles.size(); j++) {
+            if (player.getGlobalBounds().intersects(enemyMissiles[j].getGlobalBounds())) {
+                playerInstance.setHp(1);
+                explosionFrame.setPosition(Vector2f(player.getPosition().x, player.getPosition().y));
+
+                hit = true;
+                enemyMissiles.erase(enemyMissiles.begin() + j);
+
+            }
+
+        }
+    }
     void setHit(bool flag) {
         hit = flag;
     }

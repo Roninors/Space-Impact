@@ -42,6 +42,8 @@ public:
 		//event listener for mouse movement
 		playerSprite.setPosition(Mouse::getPosition(window).x, Mouse::getPosition(window).y);
 
+
+
 		//player move limitations
 		if (playerSprite.getPosition().y < 0)
 			playerSprite.setPosition(playerSprite.getPosition().x, 0.f);
