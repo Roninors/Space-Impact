@@ -22,7 +22,7 @@ public:
 
 		shootTimer = 0;
 		shootDuration = 15;
-		 missileVelocity = 10.f;
+		missileVelocity = 10.f;
 	}
 
 	void missilesMovement(RenderWindow &window, std::vector<Sprite>& missiles) {
@@ -61,8 +61,8 @@ public:
 		};
 	}
 
-	void setCenterPosition(float x_xis, float y_axis) {
-		centerPosition = Vector2f(x_xis,y_axis);
+	void setCenterPosition(float x_axis, float y_axis) {
+		centerPosition = Vector2f(x_axis,y_axis);
 
 	};
 	

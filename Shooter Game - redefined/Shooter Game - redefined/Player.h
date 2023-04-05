@@ -11,7 +11,8 @@ using namespace sf;
 class Player {
 public:
 	Player() {
-	
+		
+
 	}
 
 	Player(std::string imgPath) {
@@ -21,14 +22,14 @@ public:
 		textureSize = playerTexture.getSize();
 		textureSize.x /= 1;
 		textureSize.y /= 4;
-	
+		hp = 3;
 	
 	}
 	
 
-	void updateAnimation(int imageCount) {
+	void updateAnimation() {
 	
-		playerSprite.setTextureRect(IntRect(textureSize.x * 0, textureSize.y * imageCount, textureSize.x, textureSize.y));
+		playerSprite.setTextureRect(IntRect(textureSize.x * 0, textureSize.y * playerAnimation, textureSize.x, textureSize.y));
 	};
 	
 
@@ -59,10 +60,38 @@ public:
 	Sprite getPlayer() {
 		return playerSprite;
 	}
+
+	int getPlayerHp() {
+		return hp;
+	}
+
+	void hpChecker(RenderWindow& window) {
+		if (hp == 0)
+		{
+			window.close();
+		}
+	}
+
+	void setHp(int hpReducer) {
+	
+		hp -= hpReducer;
+	}
+
+	void setPlayerAnimation() {
+		playerAnimation++;
+	}
+	int getPlayerAnimation() {
+		return playerAnimation;
+	}
+
+	void resetPlayerAnimation() {
+		playerAnimation = 0;
+	}
 private:
 	Texture playerTexture;
 	Sprite playerSprite;
 	Vector2u textureSize;
-
+	int playerAnimation = 0;
+	int hp = 0;
 };
 

@@ -138,6 +138,8 @@
   <ItemGroup>
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyMissile.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="Missile.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>

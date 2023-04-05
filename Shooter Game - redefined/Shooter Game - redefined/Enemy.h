@@ -41,7 +41,7 @@ public:
 		for (int i = 0; i < enemies.size(); i++) {
 			enemies[i].move(enemyVelocity, 0.f);
 
-			enemies[i].setTextureRect(IntRect(enemyTextureSize.x * 0 , enemyTextureSize.y * imageCount, enemyTextureSize.x, enemyTextureSize.y));
+			enemies[i].setTextureRect(IntRect(enemyTextureSize.x * 0 , enemyTextureSize.y * imageCount, enemyTextureSize.x, enemyTextureSize.y)); 
 			//delete enemies when out of screen
 			if (enemies[i].getPosition().x <= 0 || enemies[i].getPosition().y >= window.getSize().y)
 				enemies.erase(enemies.begin() + i);
@@ -49,7 +49,9 @@ public:
 
 		};
 		
+
 		}
+
 
 	void drawEnemy(RenderWindow &window, std::vector<Sprite> enemies) {
 
@@ -59,12 +61,47 @@ public:
 		}
 	}
 	
+	int getEnemySpawnTimer() {
+		return enemySpawnTimer;
+	}
+
+	int getEnemySpawnDuration() {
+		return enemySpawnDuration;
+	}
+	int getEnemyImageCount() {
+		return enemyImageCount;
+	}
+	void setEnemyImageCount() {
+		enemyImageCount++;
+	}
+
+	void resetEnemyImageCount() {
+		enemyImageCount = 0;
+	}
+
+	void setEnemySpawnTimer() {
+		enemySpawnTimer++;
+	}
+
+	void resetEnemySpawnTimer() {
+		enemySpawnTimer = 0;
+	}
 	
-	
+	void setEnemyVelocity(int speed) {
+		enemyVelocity = speed;
+	}
+
+	void setEnemyDuration(int duration) {
+		enemySpawnDuration = duration;
+	}
+
+
 private:
 	Texture enemyTexture;
 	Sprite enemyForm;
 	float enemyVelocity = 0;
 	Vector2u enemyTextureSize;
-
+	int enemySpawnTimer = 0;
+	int enemySpawnDuration = 100;
+	int enemyImageCount = 0;
 };
