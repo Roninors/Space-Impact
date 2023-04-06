@@ -59,6 +59,7 @@ public:
 			playerSprite.setPosition(window.getSize().x - playerSprite.getGlobalBounds().width, playerSprite.getPosition().y);
 	}
 
+	
 	Sprite getPlayer() {
 		return playerSprite;
 	}
@@ -95,5 +96,6 @@ private:
 	Vector2u textureSize;
 	int playerAnimation = 0;
 	int hp = 0;
+	
 };
 

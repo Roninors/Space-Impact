@@ -10,15 +10,20 @@ public:
 	}
 
 
-	void levelChecker(int killCount, Enemy& enemyInstance) {
+	void levelChecker(int killCount, Enemy& enemyInstance) { 
 		switch (level) {
 		case 1:
-			if (killCount == 3) {
+			if (killCount == 10) {
 				enemyInstance.setEnemyVelocity(-1.f);
 				enemyInstance.setEnemyDuration(50);
 			}
-			else if (killCount == 10) {
-			//spawn boss
+			else if (killCount == 20) {
+				enemyInstance.setEnemyVelocity(-1.8f);
+				detectEnemyMissile = true;
+				enemyShoot = true;
+			}
+			else if (killCount == 25) {
+				enemyInstance.setEnemyVelocity(-2.f);
 				detectEnemyMissile = true;
 				enemyShoot = true;
 			}
