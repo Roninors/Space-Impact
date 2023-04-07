@@ -75,7 +75,7 @@ int main()
     std::vector <Sprite> enemies;
     std::vector <Sprite> missiles;
     std::vector <Sprite> enemyMissiles;
-
+    std::vector <Sprite> bossMissiles;
     //Collision
     Collision collision("textures/explode.png");
 
@@ -94,7 +94,7 @@ int main()
     Level level;
     
     //enemy missile
-    EnemyMissile enemyMissile("textures/06.png");
+    EnemyMissile enemyMissile("textures/enemyProjectile.png");
     
    //timer
     Clock clock;
@@ -225,9 +225,10 @@ int main()
       
         // boss animation
 
-        boss.bossAnimator(window);
+        boss.bossAnimator(window,level.getSpawnBoss());
 
-        boss.bossMovement(window);
+        //boss movement
+        boss.bossMovement(window, level.getSpawnBoss());
         
         
         //check player hp
@@ -243,8 +244,10 @@ int main()
         //draw animations
 
         window.draw(backGround);
-
-        boss.drawBoss(window);
+        if (level.getSpawnBoss() == true) {
+            boss.drawBoss(window);
+        }
+        
 
         enemy.drawEnemy(window, enemies);
 
@@ -259,6 +262,8 @@ int main()
         window.draw(killCountLabel);
         window.draw(lifeCountLabel);
         window.draw(lifeCountText);
+
+
         if (level.getShootFlag() == true) {
             enemyMissile.drawEnemyMissile(window, enemyMissiles);
         }

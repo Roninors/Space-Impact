@@ -26,6 +26,8 @@ public:
 				enemyInstance.setEnemyVelocity(-2.f);
 				detectEnemyMissile = true;
 				enemyShoot = true;
+
+				spawnBoss = true;
 			}
 			break;
 		
@@ -41,8 +43,15 @@ public:
 	}
 
 
+	bool getSpawnBoss() {
+		return spawnBoss;
+	}
+
+	
+
 private:
 	int level;
 	bool enemyShoot;
 	bool detectEnemyMissile;
+	bool spawnBoss;
 };

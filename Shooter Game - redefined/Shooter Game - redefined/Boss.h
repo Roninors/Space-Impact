@@ -26,18 +26,25 @@ public:
 		bossSprite.setPosition(window.getSize().x, window.getSize().y - 300);
 		bossTextureSize.x /= 1;
 		bossTextureSize.y /= 44;
+		bool spawnBoss = false;
+
 
 	}
 	
-	void bossAnimator(RenderWindow &window) {
-
+	void bossAnimator(RenderWindow &window,bool spawnBoss) {
+		if(spawnBoss == true)
 		bossSprite.setTextureRect(IntRect(bossTextureSize.x * 0, bossTextureSize.y * bossImgCount, bossTextureSize.x, bossTextureSize.y ));
 	}
 
-	void bossMovement(RenderWindow& window) {
+	void bossMovement(RenderWindow &window, bool spawnBoss) {
+		if (spawnBoss == true) {
 		
-			if(bossSprite.getPosition().x > window.getSize().x - 150)
-			bossSprite.move(-.5f, 0.f);
+			if (bossSprite.getPosition().x > window.getSize().x - 150) {
+				bossSprite.move(-.5f, 0.f);
+
+			}
+		}
+			
 	}
 
 	void drawBoss(RenderWindow &window) {
@@ -56,6 +63,7 @@ public:
 		bossImgCount = 0;
 	
 	}
+	
 
 private:
 	Sprite bossSprite;

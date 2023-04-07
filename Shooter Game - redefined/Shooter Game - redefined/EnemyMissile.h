@@ -78,4 +78,5 @@ private:
 	Texture enemyMissileTexture;
 	Vector2f enemyCenterPosition;
 	float enemyMissileVelocity = 0;
+
 };
