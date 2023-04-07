@@ -11,6 +11,8 @@
 #include "Missile.h"
 #include "Level.h"
 #include "EnemyMissile.h"
+#include "Boss.h"
+
 
 using namespace sf;
 
@@ -97,6 +99,9 @@ int main()
    //timer
     Clock clock;
 
+   //boss
+    Boss boss("textures/boss1.png", window);
+
     while (window.isOpen())
     {
         Event event;
@@ -122,8 +127,10 @@ int main()
        
         //animation changer
         if (clock.getElapsedTime().asSeconds() > .1f) {
+
             enemy.setEnemyImageCount();
             userPlayer.setPlayerAnimation();
+            boss.setBossImgCount();
 
             if (collision.getHit() == true) {
                 collision.setExplosionAnimation();
@@ -136,10 +143,18 @@ int main()
       
        
         if (userPlayer.getPlayerAnimation() == 4) {
-        
+            
             userPlayer.resetPlayerAnimation();
         }
            
+
+
+        if (boss.getBossImgCount() == 44) {
+
+            boss.resetBossImgCount();
+        }
+
+
 
         if (enemy.getEnemyImageCount() == 4) {
 
@@ -208,7 +223,11 @@ int main()
             collision.player_EnemyMissileCollision(enemyMissiles, userPlayer.getPlayer(), userPlayer);
         }
       
+        // boss animation
 
+        boss.bossAnimator(window);
+
+        boss.bossMovement(window);
         
         
         //check player hp
@@ -225,6 +244,8 @@ int main()
 
         window.draw(backGround);
 
+        boss.drawBoss(window);
+
         enemy.drawEnemy(window, enemies);
 
         userPlayer.drawPlayer(window);
@@ -232,6 +253,7 @@ int main()
         missile.drawMissiles(window,missiles);
 
         collision.drawExplosion(window, clock);
+
 
         window.draw(killCountText);
         window.draw(killCountLabel);

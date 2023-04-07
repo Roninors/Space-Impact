@@ -96,6 +96,6 @@ private:
 	Vector2u textureSize;
 	int playerAnimation = 0;
 	int hp = 0;
-	
+	int playerLevel = 1;
 };
 
