@@ -7,6 +7,7 @@ public:
 		level = 1;
 		enemyShoot = false;
 		detectEnemyMissile = false;
+		bossShoot = false;
 	}
 
 
@@ -22,12 +23,13 @@ public:
 				detectEnemyMissile = true;
 				enemyShoot = true;
 			}
-			else if (killCount == 25) {
+			else if (killCount == 2) {
 				enemyInstance.setEnemyVelocity(-2.f);
 				detectEnemyMissile = true;
 				enemyShoot = true;
 
 				spawnBoss = true;
+				bossShoot = true;
 			}
 			break;
 		
@@ -47,6 +49,10 @@ public:
 		return spawnBoss;
 	}
 
+	bool getBossShoot() {
+		return bossShoot;
+	}
+
 	
 
 private:
@@ -54,4 +60,5 @@ private:
 	bool enemyShoot;
 	bool detectEnemyMissile;
 	bool spawnBoss;
+	bool bossShoot;
 };

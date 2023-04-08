@@ -12,7 +12,7 @@
 #include "Level.h"
 #include "EnemyMissile.h"
 #include "Boss.h"
-
+#include "BossMissile.h"
 
 using namespace sf;
 
@@ -24,12 +24,11 @@ int main()
     
     window.setFramerateLimit(60);
   
+    //BACKGROUND
 
     Texture bgTexture;
     Sprite backGround;
 
-
-    //background
     if (!bgTexture.loadFromFile("textures/background.png"))
         throw  "can't load png";
 
@@ -37,7 +36,7 @@ int main()
     backGround.setScale(1.1f, 1.1f);
 
 
-    //font
+    //FONTS AND TEXTS
 
     Font textFont;
     
@@ -70,38 +69,44 @@ int main()
     lifeCountLabel.setString("Lives :");
     lifeCountLabel.setPosition(Vector2f(300.f, 0.f));
 
-
+    //VECTORS 
    
     std::vector <Sprite> enemies;
     std::vector <Sprite> missiles;
     std::vector <Sprite> enemyMissiles;
     std::vector <Sprite> bossMissiles;
-    //Collision
+
+    //Collision INSTANCE
     Collision collision("textures/explode.png");
 
-    //player
+    //player INSTANCE
     Player userPlayer("textures/Ligher.png");
 
     
-    //missile
+    //missile INSTANCE
     Missile missile("textures/06.png");
 
 
-    //enemy
+    //enemy INSTANCE
     Enemy enemy("textures/purpleShip.png");
 
-    //Level
+    //Level INSTANCE
     Level level;
     
-    //enemy missile
+    //enemy missile INSTANCE
     EnemyMissile enemyMissile("textures/enemyProjectile.png");
     
-   //timer
+   //timer INSTANCE
     Clock clock;
 
-   //boss
+   //boss INSTANCE
     Boss boss("textures/boss1.png", window);
 
+    //boss missile INSTANCE
+
+    BossMissile bossMissile("textures/bossMissile.png");
+
+    // Game loop
     while (window.isOpen())
     {
         Event event;
@@ -112,7 +117,7 @@ int main()
         }
 
 
-        // update
+        // UPDATE
         
 
         //player movement
@@ -125,15 +130,23 @@ int main()
         userPlayer.updateAnimation();
 
        
-        //animation changer
+        //animation changer//counter
+
         if (clock.getElapsedTime().asSeconds() > .1f) {
 
+            bossMissile.setBossMissileImg_Count();
+
             enemy.setEnemyImageCount();
+
             userPlayer.setPlayerAnimation();
+
+            if (level.getBossShoot() == true)
             boss.setBossImgCount();
 
             if (collision.getHit() == true) {
+
                 collision.setExplosionAnimation();
+
             }
           
             clock.restart();
@@ -164,18 +177,24 @@ int main()
         if (collision.getExplosionAnimation() == 8) {
           
             collision.resetExplosionAnimation();
+
             collision.setHit(false);
+
         }
 
-     
+        if (bossMissile.getBossMissileImg_Count() == 6) {
+
+    
+            bossMissile.resetBossMissileImg_Count();
+        }
         
 
 
-       //trigger
+       //player trigger
 
        missile.shootMissiles(missiles);
         
-        //missile/projectile projection
+        //player - missile/projectile trajection
 
        missile.missilesMovement(window, missiles);
 
@@ -195,7 +214,7 @@ int main()
         //shoot enemy missile
         enemyMissile.enemyShootMissiles(enemyMissiles);
 
-        //enemy missile projection
+        //enemy missile trajection and missile movement
         enemyMissile.missilesMovement(window, enemyMissiles);
 
         for (int i = 0; i < enemies.size(); i++) {
@@ -213,6 +232,7 @@ int main()
 
 
         //get enemy missile detection
+        // only detects enemy missiles when missile spawn is happening
 
         if (level.getdetectionMissiles() == true) {
 
@@ -230,7 +250,17 @@ int main()
         //boss movement
         boss.bossMovement(window, level.getSpawnBoss());
         
-        
+        //boss missile center
+        bossMissile.setBossMissilePosition(boss.getBossSprite().getPosition().x, boss.getBossSprite().getPosition().y);
+
+        //boss missile shooter
+
+        bossMissile.bossShootMissiles(bossMissiles);
+
+        //boss missile movement/trajection
+        bossMissile.bossMissilesMovement(window, bossMissiles);
+
+
         //check player hp
         userPlayer.hpChecker(window);
 
@@ -257,12 +287,21 @@ int main()
 
         collision.drawExplosion(window, clock);
 
+        //only draw boss missile when boss spawn is set to true
+        if (level.getBossShoot() == true) { 
+            
+            bossMissile.drawBossMissile(window, bossMissiles); 
 
+        }
+   
+        //labels and texts
         window.draw(killCountText);
         window.draw(killCountLabel);
         window.draw(lifeCountLabel);
         window.draw(lifeCountText);
 
+
+        //only draws enemy missile when shoot flag for enemy shooting is set to true
 
         if (level.getShootFlag() == true) {
             enemyMissile.drawEnemyMissile(window, enemyMissiles);

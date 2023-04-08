@@ -31,9 +31,13 @@ public:
 	}
 
 
+
 	void bossMissilesMovement(RenderWindow& window, std::vector<Sprite>& bossMissiles) {
 
+	
+		bossMissileForm.setScale(2.0f, 2.0f);
 		for (int i = 0; i < bossMissiles.size(); i++) {
+			bossMissiles[i].setTextureRect(IntRect(bossMissileTextureSize.x * bossMissileImg_Count, bossMissileTextureSize.y * 0, bossMissileTextureSize.x, bossMissileTextureSize.y));
 			bossMissileForm.setPosition(bossCenterPosition);
 			bossMissiles[i].move(bossMissileVelocity, 0.0f);
 
@@ -64,7 +68,7 @@ public:
 		}
 	}
 
-	void drawEnemyMissile(RenderWindow& window, std::vector<Sprite>& bossMissiles) {
+	void drawBossMissile(RenderWindow& window, std::vector<Sprite>& bossMissiles) {
 		for (int i = 0; i < bossMissiles.size(); i++) {
 			window.draw(bossMissiles[i]);
 
@@ -75,6 +79,21 @@ public:
 		bossCenterPosition = Vector2f(x_axis, y_axis);
 	}
 
+	void setBossMissileImg_Count() {
+	
+		bossMissileImg_Count++;
+	}
+
+
+	void resetBossMissileImg_Count() {
+
+		bossMissileImg_Count = 0;
+	}
+
+	int getBossMissileImg_Count() {
+
+		return bossMissileImg_Count;
+	}
 
 private:
 	Vector2u bossMissileTextureSize;
@@ -84,4 +103,5 @@ private:
 	Texture bossMissileTexture;
 	Vector2f bossCenterPosition;
 	float bossMissileVelocity = 0;
+	int bossMissileImg_Count = 0;
 };

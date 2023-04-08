@@ -63,6 +63,10 @@ public:
 		bossImgCount = 0;
 	
 	}
+
+	Sprite getBossSprite() {
+		return bossSprite;
+	}
 	
 
 private:
