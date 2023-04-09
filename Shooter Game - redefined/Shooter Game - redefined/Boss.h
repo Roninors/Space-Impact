@@ -28,6 +28,9 @@ public:
 		bossTextureSize.y /= 44;
 		bool spawnBoss = false;
 
+		 bossLevel = 1;
+		 bossHp = 100;
+
 
 	}
 	
@@ -74,6 +77,7 @@ private:
 	Texture bossTexture;
 	Vector2u bossTextureSize;
 	int bossImgCount = 0;
-	int bossLevel = 1;
+	int bossLevel = 0;
+	int bossHp = 0;
 
 };

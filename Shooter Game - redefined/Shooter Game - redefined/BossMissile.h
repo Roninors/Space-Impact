@@ -52,19 +52,23 @@ public:
 	}
 
 
-	void bossShootMissiles(std::vector<Sprite>& bossMissiles) {
+	void bossShootMissiles(std::vector<Sprite>& bossMissiles, int bossImgCount) {
 		if (bossShootTimer < bossShootDuration) {
 			bossShootTimer++;
 		}
 
 
-		if (bossShootTimer >= bossShootDuration) {
+		if (bossShootTimer >= bossShootDuration ) {
+
+			if ( bossImgCount == 10 || bossImgCount == 11 || bossImgCount == 12 || bossImgCount == 13 || bossImgCount == 19 || bossImgCount == 20 || bossImgCount == 21 || bossImgCount == 22) {
+			
+
+				bossMissiles.push_back(Sprite(bossMissileForm));
+				bossShootTimer = 0;
+			}
 
 
 
-			bossMissiles.push_back(Sprite(bossMissileForm));
-
-			bossShootTimer = 0;
 		}
 	}
 

@@ -255,7 +255,7 @@ int main()
 
         //boss missile shooter
 
-        bossMissile.bossShootMissiles(bossMissiles);
+        bossMissile.bossShootMissiles(bossMissiles,boss.getBossImgCount());
 
         //boss missile movement/trajection
         bossMissile.bossMissilesMovement(window, bossMissiles);
