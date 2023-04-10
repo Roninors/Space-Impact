@@ -71,6 +71,21 @@ public:
 		return bossSprite;
 	}
 	
+	void setBossHp(int hpReducer) {
+		bossHp -= hpReducer;
+	}
+	
+	void bossHpChecker() {
+		if (bossHp == 0) {
+			std::cout << "boss died";
+		}
+		;
+	}
+
+	int getBossHp() {
+		return bossHp;
+	}
+
 
 private:
 	Sprite bossSprite;

@@ -6,6 +6,7 @@
 #include"SFML\Window.hpp"
 #include <iostream>
 #include <vector>
+#include "Boss.h"
 
 
 using namespace sf;
@@ -131,6 +132,75 @@ public:
 
         }
     }
+
+
+    void detectBossMissiles(std::vector<Sprite>& bossMissiles, std::vector<Sprite>& missiles) {
+    
+        for (int k = 0; k < missiles.size(); k++) {
+
+            for (int i = 0; i < bossMissiles.size(); i++) {
+
+
+
+                if (bossMissiles[i].getGlobalBounds().intersects(missiles[k].getGlobalBounds())) {
+
+                    explosionFrame.setPosition(Vector2f(bossMissiles[i].getPosition().x, bossMissiles[i].getPosition().y));
+                    hit = true;
+                    bossMissiles.erase(bossMissiles.begin() + i);
+                    missiles.erase(missiles.begin() + k);
+                    break;
+                }
+
+
+
+            };
+
+
+        };
+    }
+
+    void player_BossMissileCollision(std::vector <Sprite>& bossMissiles, Sprite player, Player& playerInstance) {
+    
+        for (int j = 0; j < bossMissiles.size(); j++) {
+            if (player.getGlobalBounds().intersects(bossMissiles[j].getGlobalBounds())) {
+                playerInstance.setHp(1);
+                explosionFrame.setPosition(Vector2f(player.getPosition().x, player.getPosition().y));
+
+                hit = true;
+                bossMissiles.erase(bossMissiles.begin() + j);
+
+            }
+
+        }
+    }
+
+    void boss_PlayerMissileCollision(std::vector<Sprite>& missiles, Sprite bossSprite, Boss& bossInstance) {
+    
+       
+
+
+            for (int i = 0; i < missiles.size(); i++) {
+
+
+
+                if (missiles[i].getGlobalBounds().intersects(bossSprite.getGlobalBounds())) {
+
+                    explosionFrame.setPosition(Vector2f(bossSprite.getPosition().x, bossSprite.getPosition().y));
+                    hit = true;
+                    missiles.erase(missiles.begin() + i);
+                    bossInstance.setBossHp(1);
+                
+                }
+
+
+
+            };
+
+           
+
+        
+    }
+
     void setHit(bool flag) {
         hit = flag;
     }

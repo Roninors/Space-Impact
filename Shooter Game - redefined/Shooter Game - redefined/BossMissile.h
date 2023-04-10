@@ -25,7 +25,7 @@ public:
 		bossMissileForm.setScale(Vector2f(.5f, .5f));
 
 		bossShootTimer = 0;
-		bossShootDuration = 30;
+	
 		bossMissileVelocity = -10.f;
 	
 	}
@@ -99,10 +99,14 @@ public:
 		return bossMissileImg_Count;
 	}
 
+	void setBossShootDuration(int newDuration) {
+
+		bossShootDuration = newDuration;
+	}
 private:
 	Vector2u bossMissileTextureSize;
 	int bossShootTimer = 0;
-	int bossShootDuration = 0;
+	int bossShootDuration = 30;
 	Sprite bossMissileForm;
 	Texture bossMissileTexture;
 	Vector2f bossCenterPosition;

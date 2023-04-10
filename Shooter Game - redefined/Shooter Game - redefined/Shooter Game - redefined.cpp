@@ -260,13 +260,29 @@ int main()
         //boss missile movement/trajection
         bossMissile.bossMissilesMovement(window, bossMissiles);
 
+        //boss missile detection
+        // only detects boss missiles when missile spawn is happening
+        if (level.getDetectionBossMissiles() == true) {
+            
+            //collision for boss and player missiles
+            collision.detectBossMissiles(bossMissiles, missiles);
+            
+            //collision for boss missiles and player 
+            collision.player_BossMissileCollision(bossMissiles, userPlayer.getPlayer(), userPlayer);
+
+
+            collision.boss_PlayerMissileCollision(missiles, boss.getBossSprite(), boss);
+        }
+
+
 
         //check player hp
         userPlayer.hpChecker(window);
+        boss.bossHpChecker();
 
         lifeCountText.setString(std::to_string(userPlayer.getPlayerHp()));
 
-        level.levelChecker(collision.getKillCount(), enemy);
+        level.levelChecker(collision.getKillCount(), enemy, boss, bossMissile);
 
         window.clear();
      
@@ -291,6 +307,7 @@ int main()
         if (level.getBossShoot() == true) { 
             
             bossMissile.drawBossMissile(window, bossMissiles); 
+
 
         }
    
