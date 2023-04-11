@@ -182,7 +182,7 @@ int main()
 
         }
 
-        if (bossMissile.getBossMissileImg_Count() == 6) {
+        if (bossMissile.getBossMissileImg_Count() == 7) {
 
     
             bossMissile.resetBossMissileImg_Count();
@@ -244,17 +244,19 @@ int main()
         }
       
         // boss animation
-
+        if (level.getSpawnBoss() == true)
         boss.bossAnimator(window,level.getSpawnBoss());
 
         //boss movement
+        if (level.getSpawnBoss() == true)
         boss.bossMovement(window, level.getSpawnBoss());
         
         //boss missile center
+        if (level.getSpawnBoss() == true)
         bossMissile.setBossMissilePosition(boss.getBossSprite().getPosition().x, boss.getBossSprite().getPosition().y);
 
         //boss missile shooter
-
+        if (level.getSpawnBoss() == true)
         bossMissile.bossShootMissiles(bossMissiles,boss.getBossImgCount());
 
         //boss missile movement/trajection
@@ -262,6 +264,7 @@ int main()
 
         //boss missile detection
         // only detects boss missiles when missile spawn is happening
+
         if (level.getDetectionBossMissiles() == true) {
             
             //collision for boss and player missiles
@@ -278,12 +281,13 @@ int main()
 
         //check player hp
         userPlayer.hpChecker(window);
-        boss.bossHpChecker();
+
 
         lifeCountText.setString(std::to_string(userPlayer.getPlayerHp()));
 
-        level.levelChecker(collision.getKillCount(), enemy, boss, bossMissile);
+        level.levelChecker(collision.getKillCount(), enemy, boss, bossMissile, boss.getBossDeadDecider());
 
+        boss.bossHpChecker();
         window.clear();
      
 
@@ -304,12 +308,17 @@ int main()
         collision.drawExplosion(window, clock);
 
         //only draw boss missile when boss spawn is set to true
-        if (level.getBossShoot() == true) { 
-            
-            bossMissile.drawBossMissile(window, bossMissiles); 
+        if (level.getSpawnBoss() == true) {
+
+            if (level.getBossShoot() == true) {
+
+                bossMissile.drawBossMissile(window, bossMissiles);
 
 
+            }
         }
+
+ 
    
         //labels and texts
         window.draw(killCountText);

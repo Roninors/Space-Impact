@@ -77,13 +77,17 @@ public:
 	
 	void bossHpChecker() {
 		if (bossHp == 0) {
-			std::cout << "boss died";
-		}
-		;
+			deadDecider = true;
+		};
+		
 	}
 
 	int getBossHp() {
 		return bossHp;
+	}
+
+	bool getBossDeadDecider() {
+		return deadDecider;
 	}
 
 
@@ -94,5 +98,6 @@ private:
 	int bossImgCount = 0;
 	int bossLevel = 0;
 	int bossHp = 0;
-
+	bool deadDecider = false;
+	
 };
