@@ -22,7 +22,7 @@ public:
 		textureSize = playerTexture.getSize();
 		textureSize.x /= 1;
 		textureSize.y /= 4;
-		hp = 3;
+		hp = 6;
 	
 	}
 	

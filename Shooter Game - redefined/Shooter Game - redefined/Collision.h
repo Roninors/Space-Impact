@@ -7,7 +7,7 @@
 #include <iostream>
 #include <vector>
 #include "Boss.h"
-
+#include "Level.h"
 
 using namespace sf;
 class Collision {
@@ -56,7 +56,7 @@ public:
                         enemies.erase(enemies.begin() + k);
                         missiles.erase(missiles.begin() + i);
                         killCount++;
-                        std::cout << killCount << " ";
+                        
 
                         break;
                     
@@ -199,6 +199,27 @@ public:
            
 
         
+    }
+
+    
+    void powerUpCollision(std::vector<Sprite>& missiles, Sprite healthPowerUp, Level& levelInstance) {
+
+        for (int i = 0; i < missiles.size(); i++) {
+
+
+
+            if (missiles[i].getGlobalBounds().intersects(healthPowerUp.getGlobalBounds())) {
+                
+                explosionFrame.setPosition(Vector2f(healthPowerUp.getPosition().x, healthPowerUp.getPosition().y));
+                hit = true;
+                missiles.erase(missiles.begin() + i);
+                levelInstance.setSpawnHealth(false);
+
+            }
+
+
+
+        };
     }
 
     void setHit(bool flag) {

@@ -35,8 +35,12 @@ public:
 	}
 	
 	void bossAnimator(RenderWindow &window,bool spawnBoss) {
-		if(spawnBoss == true)
-		bossSprite.setTextureRect(IntRect(bossTextureSize.x * 0, bossTextureSize.y * bossImgCount, bossTextureSize.x, bossTextureSize.y ));
+		if (spawnBoss == true)
+		{
+			drawBossLife = true;
+			bossSprite.setTextureRect(IntRect(bossTextureSize.x * 0, bossTextureSize.y * bossImgCount, bossTextureSize.x, bossTextureSize.y));
+		}
+		
 	}
 
 	void bossMovement(RenderWindow &window, bool spawnBoss) {
@@ -78,8 +82,16 @@ public:
 	void bossHpChecker() {
 		if (bossHp == 0) {
 			deadDecider = true;
+			drawBossLife = false;
+			bossLevel++;
 		};
 		
+	}
+
+	void bossLevelChecker() {
+		if (bossLevel == 2) {
+			bossHp = 150;
+		}
 	}
 
 	int getBossHp() {
@@ -90,7 +102,9 @@ public:
 		return deadDecider;
 	}
 
-
+	int getBossLevel() {
+		return bossLevel;
+	}
 private:
 	Sprite bossSprite;
 	Texture bossTexture;
@@ -99,5 +113,9 @@ private:
 	int bossLevel = 0;
 	int bossHp = 0;
 	bool deadDecider = false;
-	
+	bool drawBossLife = false;
+		
 };
+
+
+

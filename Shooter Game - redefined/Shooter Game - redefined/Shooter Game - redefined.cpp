@@ -13,6 +13,7 @@
 #include "EnemyMissile.h"
 #include "Boss.h"
 #include "BossMissile.h"
+#include "PowerUps.h"
 
 using namespace sf;
 
@@ -59,7 +60,7 @@ int main()
     Text lifeCountText;
     lifeCountText.setFont(textFont);
     lifeCountText.setCharacterSize(20);
-    lifeCountText.setPosition(Vector2f(420.f, 0.f));
+    lifeCountText.setPosition(Vector2f(320.f, 0.f));
 
 
 
@@ -67,7 +68,19 @@ int main()
     lifeCountLabel.setFont(textFont);
     lifeCountLabel.setCharacterSize(20);
     lifeCountLabel.setString("Lives :");
-    lifeCountLabel.setPosition(Vector2f(300.f, 0.f));
+    lifeCountLabel.setPosition(Vector2f(200.f, 0.f));
+
+    Text bossLifeLabel;
+    bossLifeLabel.setFont(textFont);
+    bossLifeLabel.setCharacterSize(20);
+    bossLifeLabel.setString("Boss Life :");
+    bossLifeLabel.setPosition(Vector2f(400.f, 0.f));
+
+    Text bossLifeCountText;
+    bossLifeCountText.setFont(textFont);
+    bossLifeCountText.setCharacterSize(20);
+    bossLifeCountText.setPosition(Vector2f(580.f, 0.f));
+
 
     //VECTORS 
    
@@ -75,6 +88,9 @@ int main()
     std::vector <Sprite> missiles;
     std::vector <Sprite> enemyMissiles;
     std::vector <Sprite> bossMissiles;
+
+    //Power up INSTANCE
+    PowerUps powerUp("textures/heart.png","textures/explode.png", "textures/explode.png",window);
 
     //Collision INSTANCE
     Collision collision("textures/explode.png");
@@ -287,7 +303,32 @@ int main()
 
         level.levelChecker(collision.getKillCount(), enemy, boss, bossMissile, boss.getBossDeadDecider());
 
+
+        //boss hp checker and life count
         boss.bossHpChecker();
+        bossLifeCountText.setString(std::to_string(boss.getBossHp()));
+
+        //boss level
+        boss.bossLevelChecker();
+
+
+        
+       //powerup
+
+      
+        if (level.getSpawnHealth() == true) { 
+          
+            powerUp.powerUpMovement(window, level); }
+
+
+
+        if (level.getSpawnHealth() == true) {
+            
+            collision.powerUpCollision(missiles, powerUp.getHealthSprite(), level);
+        }
+  
+   
+
         window.clear();
      
 
@@ -309,6 +350,9 @@ int main()
 
         //only draw boss missile when boss spawn is set to true
         if (level.getSpawnBoss() == true) {
+
+            window.draw(bossLifeLabel);
+            window.draw(bossLifeCountText);
 
             if (level.getBossShoot() == true) {
 
@@ -332,6 +376,12 @@ int main()
         if (level.getShootFlag() == true) {
             enemyMissile.drawEnemyMissile(window, enemyMissiles);
         }
+
+        if (level.getSpawnHealth() == true) {
+           
+            powerUp.drawHealthPowerUp(window);
+        }
+       
 
         window.display();
     }
