@@ -12,7 +12,7 @@ public:
 		detectEnemyMissile = false;
 		bossShoot = false;
 		detectBossMissiles = false;
-		
+		hitSpawn = true;
 	}
 
 
@@ -24,14 +24,14 @@ public:
 
 				enemyInstance.setEnemyVelocity(-1.f);
 				enemyInstance.setEnemyDuration(50);
-				spawnHealth = true;
-
+				
 			}
 			else if (killCount == 20) {
 
 				enemyInstance.setEnemyVelocity(-1.8f);
 				detectEnemyMissile = true;
 				enemyShoot = true;
+				
 			}
 			else if (killCount == 30) {
 
@@ -48,6 +48,14 @@ public:
 
 			}
 
+			if (bossInstance.getBossHp() <= 50 && hitSpawn) {
+
+				spawnHealth = true;
+			}
+			else {
+				spawnHealth = false;
+			}
+
 
 			if (bossDied == true) {
 				spawnBoss = false;
@@ -59,7 +67,7 @@ public:
 				level++;
 			}
 
-			std::cout << spawnHealth;
+		
 			break;
 		
 		case 2:
@@ -113,6 +121,11 @@ public:
 	}
 	
 
+	void setHitSpawnHealth(bool decider) {
+	
+		hitSpawn = decider;
+	}
+
 private:
 	int level;
 	bool enemyShoot;
@@ -123,4 +136,5 @@ private:
 	bool spawnHealth;
 	bool spawnShield;
 	bool spawnDbFire;
+	bool hitSpawn;
 };

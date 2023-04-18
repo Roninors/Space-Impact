@@ -324,7 +324,7 @@ int main()
 
         if (level.getSpawnHealth() == true) {
             
-            collision.powerUpCollision(missiles, powerUp.getHealthSprite(), level);
+            collision.powerUpCollision(missiles, powerUp.getHealthSprite(), level,userPlayer);
         }
   
    

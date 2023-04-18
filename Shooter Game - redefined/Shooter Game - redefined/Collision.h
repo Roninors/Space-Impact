@@ -202,7 +202,7 @@ public:
     }
 
     
-    void powerUpCollision(std::vector<Sprite>& missiles, Sprite healthPowerUp, Level& levelInstance) {
+    void powerUpCollision(std::vector<Sprite>& missiles, Sprite healthPowerUp, Level& levelInstance, Player& playerInstance) {
 
         for (int i = 0; i < missiles.size(); i++) {
 
@@ -213,8 +213,8 @@ public:
                 explosionFrame.setPosition(Vector2f(healthPowerUp.getPosition().x, healthPowerUp.getPosition().y));
                 hit = true;
                 missiles.erase(missiles.begin() + i);
-                levelInstance.setSpawnHealth(false);
-
+                levelInstance.setHitSpawnHealth(false);
+                playerInstance.addHp();
             }
 
 
