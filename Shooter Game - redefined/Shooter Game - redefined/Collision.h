@@ -202,22 +202,24 @@ public:
     }
 
     
-    void powerUpCollision(std::vector<Sprite>& missiles, Sprite healthPowerUp, Level& levelInstance, Player& playerInstance) {
+    void powerUpCollision(std::vector<Sprite>& missiles, Player& playerInstance, std::vector<Sprite>& heartPowerup) {
 
         for (int i = 0; i < missiles.size(); i++) {
 
+            for (int j = 0; j < heartPowerup.size(); j++) {
+            
+            
+                if (missiles[i].getGlobalBounds().intersects(heartPowerup[j].getGlobalBounds())) {
 
-
-            if (missiles[i].getGlobalBounds().intersects(healthPowerUp.getGlobalBounds())) {
-                
-                explosionFrame.setPosition(Vector2f(healthPowerUp.getPosition().x, healthPowerUp.getPosition().y));
-                hit = true;
-                missiles.erase(missiles.begin() + i);
-                levelInstance.setHitSpawnHealth(false);
-                playerInstance.addHp();
+                    explosionFrame.setPosition(Vector2f(heartPowerup[j].getPosition().x, heartPowerup[j].getPosition().y));
+                    hit = true;
+                    missiles.erase(missiles.begin() + i);
+                    heartPowerup.erase(heartPowerup.begin() + j);
+                    playerInstance.addHp();
+                    break;
+                }
+            
             }
-
-
 
         };
     }

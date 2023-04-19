@@ -25,10 +25,14 @@ public:
 	
 		doubleFire.setTexture(doubleFireTexture);
 		shield.setTexture(shieldTexture);
-		healthPowerUp.setPosition(window.getSize().x, (rand() % int(window.getSize().y - healthPowerUp.getGlobalBounds().height)));
+		
 	}
-	void drawHealthPowerUp(RenderWindow& window) {
-		window.draw(healthPowerUp);
+	void drawHealthPowerUp(RenderWindow& window, std::vector<Sprite>& heartPowerup) {
+		for (int i = 0; i < heartPowerup.size(); i++) {
+			window.draw(heartPowerup[i]);
+
+		}
+		
 	}
 	void drawDoubleFirePowerUp(RenderWindow& window) {
 		window.draw(doubleFire);
@@ -38,23 +42,49 @@ public:
 		window.draw(shield);
 	}
 
-	void powerUpMovement(RenderWindow& window, Level& levelInstance) {
-	
+	void powerUpMovement(RenderWindow& window, Level& levelInstance, std::vector<Sprite>& heartPowerup) {
+		for (int i = 0; i < heartPowerup.size(); i++) {
+			heartPowerup[i].move(-1.5f, 0.f);
+
+			
+			//delete heart when out of screen
+			if (heartPowerup[i].getPosition().x <= 0 )
+				heartPowerup.erase(heartPowerup.begin() + i);
+
+
+		};
 		healthPowerUp.move(-1.5f,0.f);
+		
 		doubleFire.move(-1.5f, 0.f);
 		shield.move(-1.5f, 0.f);
 
-		if (healthPowerUp.getPosition().x <= 0)
-			levelInstance.setSpawnHealth(false);
+		
 
 	}
 
+	void spawnHealth(RenderWindow& window, std::vector<Sprite>& heartPowerup) {
+		healthPowerUp.setPosition(window.getSize().x, (rand() % int(window.getSize().y - healthPowerUp.getGlobalBounds().height)));
+		heartPowerup.push_back(Sprite(healthPowerUp));
+	}
 	
-	Sprite getHealthSprite() {
-		return healthPowerUp;
+
+
+	int getHealthSpawnTimer() {
+		return healthSpawnTimer;
 	}
 
+	int getHealthSpawnDuration() {
+		return healthSpawnDuration;
+	}
+	
 
+	void setHealthSpawnTimer() {
+		healthSpawnTimer++;
+	}
+
+	void resetHealthSpawnTimer() {
+		healthSpawnTimer = 0;
+	}
 
 private:
 
@@ -65,6 +95,9 @@ private:
 	Texture healthTexture;
 	Texture doubleFireTexture;
 	Texture shieldTexture;
+
+	int healthSpawnTimer = 0;
+	int healthSpawnDuration = 3000;
 
 
 };

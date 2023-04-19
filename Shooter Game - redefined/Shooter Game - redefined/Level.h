@@ -12,7 +12,7 @@ public:
 		detectEnemyMissile = false;
 		bossShoot = false;
 		detectBossMissiles = false;
-		hitSpawn = true;
+		spawnHealth = true;
 	}
 
 
@@ -48,13 +48,7 @@ public:
 
 			}
 
-			if (bossInstance.getBossHp() <= 50 && hitSpawn) {
-
-				spawnHealth = true;
-			}
-			else {
-				spawnHealth = false;
-			}
+			
 
 
 			if (bossDied == true) {
@@ -71,6 +65,12 @@ public:
 			break;
 		
 		case 2:
+
+			if (killCount >= killCount + 20)
+			{
+
+				std::cout << "ready";
+			}
 
 
 			break;
@@ -121,10 +121,7 @@ public:
 	}
 	
 
-	void setHitSpawnHealth(bool decider) {
 	
-		hitSpawn = decider;
-	}
 
 private:
 	int level;
@@ -136,5 +133,5 @@ private:
 	bool spawnHealth;
 	bool spawnShield;
 	bool spawnDbFire;
-	bool hitSpawn;
+
 };

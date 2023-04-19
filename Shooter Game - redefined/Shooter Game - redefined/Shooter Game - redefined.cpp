@@ -88,6 +88,7 @@ int main()
     std::vector <Sprite> missiles;
     std::vector <Sprite> enemyMissiles;
     std::vector <Sprite> bossMissiles;
+    std::vector <Sprite> heartPowerup;
 
     //Power up INSTANCE
     PowerUps powerUp("textures/heart.png","textures/explode.png", "textures/explode.png",window);
@@ -314,19 +315,26 @@ int main()
 
         
        //powerup
+        if (powerUp.getHealthSpawnTimer() < powerUp.getHealthSpawnDuration())
+            powerUp.setHealthSpawnTimer();
 
+        if (powerUp.getHealthSpawnTimer() >= powerUp.getHealthSpawnDuration()) {
+            powerUp.spawnHealth(window,heartPowerup);
+            powerUp.resetHealthSpawnTimer();
+        }
       
         if (level.getSpawnHealth() == true) { 
           
-            powerUp.powerUpMovement(window, level); }
+            powerUp.powerUpMovement(window, level,heartPowerup); }
 
 
 
         if (level.getSpawnHealth() == true) {
             
-            collision.powerUpCollision(missiles, powerUp.getHealthSprite(), level,userPlayer);
+            collision.powerUpCollision(missiles,userPlayer,heartPowerup);
         }
   
+
    
 
         window.clear();
@@ -379,7 +387,7 @@ int main()
 
         if (level.getSpawnHealth() == true) {
            
-            powerUp.drawHealthPowerUp(window);
+            powerUp.drawHealthPowerUp(window, heartPowerup);
         }
        
 
