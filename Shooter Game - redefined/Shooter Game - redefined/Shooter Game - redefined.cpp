@@ -90,8 +90,10 @@ int main()
     std::vector <Sprite> bossMissiles;
     std::vector <Sprite> heartPowerup;
 
+    std::vector <Sprite> ammo;
+
     //Power up INSTANCE
-    PowerUps powerUp("textures/heart.png","textures/explode.png", "textures/explode.png",window);
+    PowerUps powerUp("textures/heart.png","textures/ammo.png", "textures/explode.png",window);
 
     //Collision INSTANCE
     Collision collision("textures/explode.png");
@@ -314,7 +316,7 @@ int main()
 
 
         
-       //powerup
+       //powerup health
         if (powerUp.getHealthSpawnTimer() < powerUp.getHealthSpawnDuration())
             powerUp.setHealthSpawnTimer();
 
@@ -323,17 +325,33 @@ int main()
             powerUp.resetHealthSpawnTimer();
         }
       
-        if (level.getSpawnHealth() == true) { 
+        if (level.getSpawnPowerUp() == true) { 
           
-            powerUp.powerUpMovement(window, level,heartPowerup); }
+            powerUp.powerUpMovement(window, level,heartPowerup,ammo); }
 
 
 
-        if (level.getSpawnHealth() == true) {
+        if (level.getSpawnPowerUp() == true) {
             
-            collision.powerUpCollision(missiles,userPlayer,heartPowerup);
+            collision.powerUpCollision(missiles,userPlayer,heartPowerup,ammo,missile);
         }
   
+
+        //power up rapid fire
+
+        if (powerUp.getFireSpawnTimer() < powerUp.getFireSpawnDuration()) {
+        
+            powerUp.setFireSpawnTimer();
+
+       
+        }
+       
+        std::cout << powerUp.getFireSpawnTimer() << " ";
+        if (powerUp.getFireSpawnTimer() >= powerUp.getFireSpawnDuration()) {
+            std::cout << "spawn fire";
+            powerUp.spawnRpFire(window, ammo);
+            powerUp.resetFireSpawnTimer();
+        }
 
    
 
@@ -347,6 +365,12 @@ int main()
             boss.drawBoss(window);
         }
         
+
+        if (level.getSpawnPowerUp() == true) {
+            powerUp.drawDoubleFirePowerUp(window, ammo);
+            powerUp.drawHealthPowerUp(window, heartPowerup);
+        }
+
 
         enemy.drawEnemy(window, enemies);
 
@@ -384,12 +408,6 @@ int main()
         if (level.getShootFlag() == true) {
             enemyMissile.drawEnemyMissile(window, enemyMissiles);
         }
-
-        if (level.getSpawnHealth() == true) {
-           
-            powerUp.drawHealthPowerUp(window, heartPowerup);
-        }
-       
 
         window.display();
     }

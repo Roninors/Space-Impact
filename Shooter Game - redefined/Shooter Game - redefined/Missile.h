@@ -65,6 +65,11 @@ public:
 		centerPosition = Vector2f(x_axis,y_axis);
 
 	};
+
+	void setShootDuration() {
+	
+		shootDuration = 5;
+	}
 	
 private:
 	Texture missileTexture;

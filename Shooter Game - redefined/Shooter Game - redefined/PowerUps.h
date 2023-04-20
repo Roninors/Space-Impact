@@ -25,6 +25,9 @@ public:
 	
 		doubleFire.setTexture(doubleFireTexture);
 		shield.setTexture(shieldTexture);
+
+
+		doubleFire.setScale(.2, .2);
 		
 	}
 	void drawHealthPowerUp(RenderWindow& window, std::vector<Sprite>& heartPowerup) {
@@ -34,15 +37,20 @@ public:
 		}
 		
 	}
-	void drawDoubleFirePowerUp(RenderWindow& window) {
-		window.draw(doubleFire);
+	void drawDoubleFirePowerUp(RenderWindow& window, std::vector<Sprite>& ammo) {
+
+		for (int i = 0; i < ammo.size(); i++) {
+			window.draw(ammo[i]);
+
+		}
+
 	}
 	
 	void drawShieldPowerUp(RenderWindow& window) {
 		window.draw(shield);
 	}
 
-	void powerUpMovement(RenderWindow& window, Level& levelInstance, std::vector<Sprite>& heartPowerup) {
+	void powerUpMovement(RenderWindow& window, Level& levelInstance, std::vector<Sprite>& heartPowerup, std::vector<Sprite>& ammo) {
 		for (int i = 0; i < heartPowerup.size(); i++) {
 			heartPowerup[i].move(-1.5f, 0.f);
 
@@ -53,9 +61,18 @@ public:
 
 
 		};
-		healthPowerUp.move(-1.5f,0.f);
 		
-		doubleFire.move(-1.5f, 0.f);
+		for (int i = 0; i < ammo.size(); i++) {
+			ammo[i].move(-1.5f, 0.f);
+
+
+			//delete heart when out of screen
+			if (ammo[i].getPosition().x <= 0)
+				ammo.erase(ammo.begin() + i);
+
+
+		};
+
 		shield.move(-1.5f, 0.f);
 
 		
@@ -67,6 +84,29 @@ public:
 		heartPowerup.push_back(Sprite(healthPowerUp));
 	}
 	
+	void spawnRpFire(RenderWindow& window, std::vector<Sprite>& ammo) {
+		doubleFire.setPosition(window.getSize().x, (rand() % int(window.getSize().y - doubleFire.getGlobalBounds().height)));
+		ammo.push_back(Sprite(doubleFire));
+	}
+
+	int getFireSpawnTimer() {
+		return fireSpawnTimer;
+	}
+
+	int getFireSpawnDuration() {
+		return fireSpawnDuration;
+	}
+
+
+	void setFireSpawnTimer() {
+		fireSpawnTimer++;
+	}
+
+	void resetFireSpawnTimer() {
+		fireSpawnTimer = 0;
+	}
+
+
 
 
 	int getHealthSpawnTimer() {
@@ -86,6 +126,7 @@ public:
 		healthSpawnTimer = 0;
 	}
 
+
 private:
 
 	Sprite healthPowerUp;
@@ -97,7 +138,9 @@ private:
 	Texture shieldTexture;
 
 	int healthSpawnTimer = 0;
-	int healthSpawnDuration = 3000;
+	int healthSpawnDuration = 2800;
 
+	int fireSpawnTimer = 0;
+	int fireSpawnDuration = 2500;
 
 };

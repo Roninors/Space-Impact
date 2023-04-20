@@ -12,7 +12,7 @@ public:
 		detectEnemyMissile = false;
 		bossShoot = false;
 		detectBossMissiles = false;
-		spawnHealth = true;
+		spawnPowerUp = true;
 	}
 
 
@@ -77,8 +77,8 @@ public:
 		}
 	}
 	
-	bool getSpawnHealth() {
-		return spawnHealth;
+	bool getSpawnPowerUp() {
+		return spawnPowerUp;
 	}
 
 	bool getDetectionBossMissiles() {
@@ -116,8 +116,8 @@ public:
 		 bossShoot = showDecider;
 	}
 
-	void setSpawnHealth(bool spawnDecider) {
-		spawnHealth = spawnDecider;
+	void setSpawnPowerUp(bool spawnDecider) {
+		spawnPowerUp = spawnDecider;
 	}
 	
 
@@ -130,8 +130,6 @@ private:
 	bool spawnBoss;
 	bool bossShoot;
 	bool detectBossMissiles;
-	bool spawnHealth;
-	bool spawnShield;
-	bool spawnDbFire;
-
+	bool spawnPowerUp;
+	
 };

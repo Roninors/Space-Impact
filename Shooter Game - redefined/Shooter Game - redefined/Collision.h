@@ -8,7 +8,7 @@
 #include <vector>
 #include "Boss.h"
 #include "Level.h"
-
+#include "Missile.h"
 using namespace sf;
 class Collision {
 public:
@@ -202,7 +202,7 @@ public:
     }
 
     
-    void powerUpCollision(std::vector<Sprite>& missiles, Player& playerInstance, std::vector<Sprite>& heartPowerup) {
+    void powerUpCollision(std::vector<Sprite>& missiles, Player& playerInstance, std::vector<Sprite>& heartPowerup, std::vector<Sprite>& ammo,Missile& missileInstance) {
 
         for (int i = 0; i < missiles.size(); i++) {
 
@@ -215,10 +215,29 @@ public:
                     hit = true;
                     missiles.erase(missiles.begin() + i);
                     heartPowerup.erase(heartPowerup.begin() + j);
-                    playerInstance.addHp();
+                    playerInstance.addHp(2);
                     break;
                 }
             
+            }
+
+        };
+
+        for (int i = 0; i < missiles.size(); i++) {
+
+            for (int j = 0; j < ammo.size(); j++) {
+
+
+                if (missiles[i].getGlobalBounds().intersects(ammo[j].getGlobalBounds())) {
+
+                    explosionFrame.setPosition(Vector2f(ammo[j].getPosition().x, ammo[j].getPosition().y));
+                    hit = true;
+                    missiles.erase(missiles.begin() + i);
+                    ammo.erase(ammo.begin() + j);
+                    missileInstance.setShootDuration();
+                    break;
+                }
+
             }
 
         };

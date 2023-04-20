@@ -80,8 +80,8 @@ public:
 		hp -= hpReducer;
 	}
 
-	void addHp() {
-		hp++;
+	void addHp(int newHp) {
+		hp+=newHp;
 	}
 
 	void setPlayerAnimation() {
