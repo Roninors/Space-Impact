@@ -43,7 +43,7 @@ public:
 
 
    
-	void enemy_missileCollision(std::vector <Sprite>& missiles, std::vector <Sprite>& enemies, RenderWindow& window, std::vector <Sprite>& enemyMissiles) {
+	void enemy_missileCollision(std::vector <Sprite>& missiles, std::vector <Sprite>& enemies, RenderWindow& window, std::vector <Sprite>& enemyMissiles, Sound& collisionSound) {
       
         for (int i = 0; i < missiles.size(); i++) {
             for (int k = 0; k < enemies.size(); k++) {
@@ -53,6 +53,7 @@ public:
 
                         explosionFrame.setPosition(Vector2f(enemies[k].getPosition().x, enemies[k].getPosition().y));
                         hit = true;
+                        collisionSound.play();
                         enemies.erase(enemies.begin() + k);
                         missiles.erase(missiles.begin() + i);
                         killCount++;
@@ -75,7 +76,7 @@ public:
 
 
 
-    void detectEnemyMissile(std::vector<Sprite>& enemyMissiles, std::vector<Sprite>& missiles) {
+    void detectEnemyMissile(std::vector<Sprite>& enemyMissiles, std::vector<Sprite>& missiles,Sound& collisionSound) {
         for (int k = 0; k < missiles.size(); k++) {
 
             for (int i = 0; i < enemyMissiles.size(); i++) {
@@ -86,6 +87,7 @@ public:
 
                     explosionFrame.setPosition(Vector2f(enemyMissiles[i].getPosition().x, enemyMissiles[i].getPosition().y));
                     hit = true;
+                    collisionSound.play();
                     enemyMissiles.erase(enemyMissiles.begin() + i);
                     missiles.erase(missiles.begin() + k);
                     break;
@@ -102,13 +104,13 @@ public:
     }
 
 
-    void enemy_playerCollision(std::vector <Sprite>& enemies, Sprite player, Player& playerInstance) {
+    void enemy_playerCollision(std::vector <Sprite>& enemies, Sprite player, Player& playerInstance,Sound& collisionSound) {
 
         for (int j = 0; j < enemies.size(); j++) {
             if (player.getGlobalBounds().intersects(enemies[j].getGlobalBounds())) {
                 playerInstance.setHp(1);
                 explosionFrame.setPosition(Vector2f(enemies[j].getPosition().x, enemies[j].getPosition().y));
-                
+                collisionSound.play();
                 hit = true;
                 enemies.erase(enemies.begin() + j);
             
@@ -118,13 +120,13 @@ public:
 
     }
 
-    void player_EnemyMissileCollision(std::vector <Sprite>& enemyMissiles, Sprite player, Player& playerInstance) {
+    void player_EnemyMissileCollision(std::vector <Sprite>& enemyMissiles, Sprite player, Player& playerInstance, Sound& collisionSound) {
 
         for (int j = 0; j < enemyMissiles.size(); j++) {
             if (player.getGlobalBounds().intersects(enemyMissiles[j].getGlobalBounds())) {
                 playerInstance.setHp(1);
                 explosionFrame.setPosition(Vector2f(player.getPosition().x, player.getPosition().y));
-
+                collisionSound.play();
                 hit = true;
                 enemyMissiles.erase(enemyMissiles.begin() + j);
 
@@ -134,7 +136,7 @@ public:
     }
 
 
-    void detectBossMissiles(std::vector<Sprite>& bossMissiles, std::vector<Sprite>& missiles) {
+    void detectBossMissiles(std::vector<Sprite>& bossMissiles, std::vector<Sprite>& missiles, Sound& collisionSound) {
     
         for (int k = 0; k < missiles.size(); k++) {
 
@@ -146,6 +148,7 @@ public:
 
                     explosionFrame.setPosition(Vector2f(bossMissiles[i].getPosition().x, bossMissiles[i].getPosition().y));
                     hit = true;
+                    collisionSound.play();
                     bossMissiles.erase(bossMissiles.begin() + i);
                     missiles.erase(missiles.begin() + k);
                     break;
@@ -159,13 +162,13 @@ public:
         };
     }
 
-    void player_BossMissileCollision(std::vector <Sprite>& bossMissiles, Sprite player, Player& playerInstance) {
+    void player_BossMissileCollision(std::vector <Sprite>& bossMissiles, Sprite player, Player& playerInstance, Sound& collisionSound) {
     
         for (int j = 0; j < bossMissiles.size(); j++) {
             if (player.getGlobalBounds().intersects(bossMissiles[j].getGlobalBounds())) {
                 playerInstance.setHp(1);
                 explosionFrame.setPosition(Vector2f(player.getPosition().x, player.getPosition().y));
-
+                collisionSound.play();
                 hit = true;
                 bossMissiles.erase(bossMissiles.begin() + j);
 
@@ -174,7 +177,7 @@ public:
         }
     }
 
-    void boss_PlayerMissileCollision(std::vector<Sprite>& missiles, Sprite bossSprite, Boss& bossInstance) {
+    void boss_PlayerMissileCollision(std::vector<Sprite>& missiles, Sprite bossSprite, Boss& bossInstance, Sound& collisionSound) {
     
        
 
@@ -187,6 +190,7 @@ public:
 
                     explosionFrame.setPosition(Vector2f(bossSprite.getPosition().x, bossSprite.getPosition().y));
                     hit = true;
+                    collisionSound.play();
                     missiles.erase(missiles.begin() + i);
                     bossInstance.setBossHp(1);
                 
@@ -202,7 +206,7 @@ public:
     }
 
     
-    void powerUpCollision(std::vector<Sprite>& missiles, Player& playerInstance, std::vector<Sprite>& heartPowerup, std::vector<Sprite>& ammo,Missile& missileInstance) {
+    void powerUpCollision(std::vector<Sprite>& missiles, Player& playerInstance, std::vector<Sprite>& heartPowerup, std::vector<Sprite>& ammo,Missile& missileInstance,Sound& powerUpSound) {
 
         for (int i = 0; i < missiles.size(); i++) {
 
@@ -213,6 +217,7 @@ public:
 
                     explosionFrame.setPosition(Vector2f(heartPowerup[j].getPosition().x, heartPowerup[j].getPosition().y));
                     hit = true;
+                    powerUpSound.play();
                     missiles.erase(missiles.begin() + i);
                     heartPowerup.erase(heartPowerup.begin() + j);
                     playerInstance.addHp(2);
@@ -232,6 +237,7 @@ public:
 
                     explosionFrame.setPosition(Vector2f(ammo[j].getPosition().x, ammo[j].getPosition().y));
                     hit = true;
+                    powerUpSound.play();
                     missiles.erase(missiles.begin() + i);
                     ammo.erase(ammo.begin() + j);
                     missileInstance.setShootDuration();

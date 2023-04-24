@@ -82,6 +82,78 @@ int main()
     bossLifeCountText.setPosition(Vector2f(580.f, 0.f));
 
 
+    //sound fx
+
+    //player shoot
+    SoundBuffer playerShootBuffer;
+
+    if (!playerShootBuffer.loadFromFile("sounds/sfx_ray.ogg"))
+        throw "cannot load player shoot sound fx.";
+
+        Sound playerShootSound;
+        playerShootSound.setVolume(20);
+        playerShootSound.setBuffer(playerShootBuffer);
+
+
+    //collision sound 
+
+        SoundBuffer collisionBuffer;
+
+        if (!collisionBuffer.loadFromFile("sounds/sfx_explosionGoo.ogg"))
+            throw "cannot load player shoot sound fx.";
+
+        Sound collisionSound;
+        collisionSound.setVolume(30);
+        collisionSound.setBuffer(collisionBuffer);
+
+   //background music
+
+        SoundBuffer bgBuffer;
+
+        if (!bgBuffer.loadFromFile("sounds/bgMusic.ogg"))
+            throw "cannot load player shoot sound fx.";
+
+        Sound bgSound;
+        bgSound.setVolume(30);
+        bgSound.setBuffer(bgBuffer);
+        bgSound.play();
+        bgSound.setLoop(true);
+
+
+        //background music for boss spawn
+
+        SoundBuffer bgBossBuffer;
+
+        if (!bgBossBuffer.loadFromFile("sounds/cannontube.ogg"))
+            throw "cannot load player shoot sound fx.";
+
+        Sound bgBossSound;
+        bgBossSound.setVolume(50);
+        bgBossSound.setBuffer(bgBossBuffer);
+       
+
+   //power up sound
+        SoundBuffer powerUpBuffer;
+
+        if (!powerUpBuffer.loadFromFile("sounds/powerUpFx.wav"))
+            throw "cannot load player shoot sound fx.";
+
+        Sound powerUpSound;
+        powerUpSound.setVolume(30);
+        powerUpSound.setBuffer(powerUpBuffer);
+     
+    //boss shoot sound
+
+        SoundBuffer bossShootBuffer;
+
+        if (!bossShootBuffer.loadFromFile("sounds/bossShoot.wav"))
+            throw "cannot load player shoot sound fx.";
+
+        Sound bossShootSound;
+        bossShootSound.setVolume(70);
+        bossShootSound.setBuffer(bossShootBuffer);
+
+
     //VECTORS 
    
     std::vector <Sprite> enemies;
@@ -211,7 +283,7 @@ int main()
 
        //player trigger
 
-       missile.shootMissiles(missiles);
+       missile.shootMissiles(missiles, playerShootSound);
         
         //player - missile/projectile trajection
 
@@ -242,12 +314,12 @@ int main()
 
 
         //detection for collision of projectiles and enemies
-        collision.enemy_missileCollision(missiles, enemies,window,enemyMissiles);
+        collision.enemy_missileCollision(missiles, enemies,window,enemyMissiles, collisionSound);
 
         killCountText.setString(std::to_string(collision.getKillCount()));
 
         //collision for enemies and player
-        collision.enemy_playerCollision(enemies, userPlayer.getPlayer(), userPlayer);
+        collision.enemy_playerCollision(enemies, userPlayer.getPlayer(), userPlayer,collisionSound);
 
 
         //get enemy missile detection
@@ -256,10 +328,10 @@ int main()
         if (level.getdetectionMissiles() == true) {
 
             // collision for enemy missiles and player missiles
-            collision.detectEnemyMissile(enemyMissiles, missiles);
+            collision.detectEnemyMissile(enemyMissiles, missiles,collisionSound);
 
             // collision for enemy missiles and player 
-            collision.player_EnemyMissileCollision(enemyMissiles, userPlayer.getPlayer(), userPlayer);
+            collision.player_EnemyMissileCollision(enemyMissiles, userPlayer.getPlayer(), userPlayer, collisionSound);
         }
       
         // boss animation
@@ -276,7 +348,7 @@ int main()
 
         //boss missile shooter
         if (level.getSpawnBoss() == true)
-        bossMissile.bossShootMissiles(bossMissiles,boss.getBossImgCount());
+        bossMissile.bossShootMissiles(bossMissiles,boss.getBossImgCount(), bossShootSound);
 
         //boss missile movement/trajection
         bossMissile.bossMissilesMovement(window, bossMissiles);
@@ -287,13 +359,13 @@ int main()
         if (level.getDetectionBossMissiles() == true) {
             
             //collision for boss and player missiles
-            collision.detectBossMissiles(bossMissiles, missiles);
+            collision.detectBossMissiles(bossMissiles, missiles,collisionSound);
             
             //collision for boss missiles and player 
-            collision.player_BossMissileCollision(bossMissiles, userPlayer.getPlayer(), userPlayer);
+            collision.player_BossMissileCollision(bossMissiles, userPlayer.getPlayer(), userPlayer, collisionSound);
 
 
-            collision.boss_PlayerMissileCollision(missiles, boss.getBossSprite(), boss);
+            collision.boss_PlayerMissileCollision(missiles, boss.getBossSprite(), boss,collisionSound);
         }
 
 
@@ -304,7 +376,7 @@ int main()
 
         lifeCountText.setString(std::to_string(userPlayer.getPlayerHp()));
 
-        level.levelChecker(collision.getKillCount(), enemy, boss, bossMissile, boss.getBossDeadDecider());
+        level.levelChecker(collision.getKillCount(), enemy, boss, bossMissile, boss.getBossDeadDecider(),bgBossSound,bgSound);
 
 
         //boss hp checker and life count
@@ -333,7 +405,7 @@ int main()
 
         if (level.getSpawnPowerUp() == true) {
             
-            collision.powerUpCollision(missiles,userPlayer,heartPowerup,ammo,missile);
+            collision.powerUpCollision(missiles,userPlayer,heartPowerup,ammo,missile, powerUpSound);
         }
   
 
@@ -345,10 +417,9 @@ int main()
 
        
         }
-       
-        std::cout << powerUp.getFireSpawnTimer() << " ";
+      
         if (powerUp.getFireSpawnTimer() >= powerUp.getFireSpawnDuration()) {
-            std::cout << "spawn fire";
+      
             powerUp.spawnRpFire(window, ammo);
             powerUp.resetFireSpawnTimer();
         }

@@ -52,7 +52,7 @@ public:
 	}
 
 
-	void bossShootMissiles(std::vector<Sprite>& bossMissiles, int bossImgCount) {
+	void bossShootMissiles(std::vector<Sprite>& bossMissiles, int bossImgCount,Sound& bossShootSound) {
 		if (bossShootTimer < bossShootDuration) {
 			bossShootTimer++;
 		}
@@ -62,7 +62,7 @@ public:
 
 			if ( bossImgCount == 10 || bossImgCount == 11 || bossImgCount == 12 || bossImgCount == 13 || bossImgCount == 19 || bossImgCount == 20 || bossImgCount == 21 || bossImgCount == 22) {
 			
-
+				bossShootSound.play();
 				bossMissiles.push_back(Sprite(bossMissileForm));
 				bossShootTimer = 0;
 			}

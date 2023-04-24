@@ -37,7 +37,7 @@ public:
 
 		};
 	}
-	void shootMissiles( std::vector<Sprite>& missiles) {
+	void shootMissiles( std::vector<Sprite>& missiles, Sound& shootSound) {
 
 		if (shootTimer < shootDuration)
 			shootTimer++;
@@ -47,6 +47,7 @@ public:
 
 			bulletForm.setPosition(centerPosition);
 			missiles.push_back(Sprite(bulletForm));
+			shootSound.play();
 
 			shootTimer = 0;
 		}

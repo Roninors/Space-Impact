@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include"SFML\Audio.hpp"
 #include "BossMissile.h"
 #include "Boss.h"
 class Level {
@@ -16,7 +17,7 @@ public:
 	}
 
 
-	void levelChecker(int killCount, Enemy& enemyInstance, Boss& bossInstance, BossMissile& bossMissileInstance, bool bossDied) { 
+	void levelChecker(int killCount, Enemy& enemyInstance, Boss& bossInstance, BossMissile& bossMissileInstance, bool bossDied, Sound& bgBossSpawn, Sound& bgSound) {
 		switch (level) {
 		case 1:
 
@@ -37,6 +38,9 @@ public:
 
 				enemyInstance.setEnemyVelocity(-2.f);
 				detectEnemyMissile = true;
+				bgSound.stop();
+				bgBossSpawn.play();
+				bgBossSpawn.setLoop(true);
 				spawnBoss = true;
 				bossShoot = true;
 				detectBossMissiles = true;
@@ -52,6 +56,10 @@ public:
 
 
 			if (bossDied == true) {
+				bgBossSpawn.stop();
+				bgSound.play();
+				bgSound.setLoop(true);
+			
 				spawnBoss = false;
 				bossShoot = false;
 				detectBossMissiles = false;
